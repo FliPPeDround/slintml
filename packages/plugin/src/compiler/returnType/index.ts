@@ -20,15 +20,17 @@ function getType(value: any): string {
   return 'unknown'
 }
 
+export interface Iresult {
+  name: string
+  types: { key: any, valueType: string }[]
+}
+
 export function getSetupReturnTypeAndName(code: string) {
   const ast = parse(code, {
     sourceType: 'unambiguous',
     plugins: ['typescript', 'jsx', 'classProperties'],
   })
-  interface Iresult {
-    name: string
-    types: { key: any, valueType: string }[]
-  }
+
   const result: Iresult = {
     name: '',
     types: [],

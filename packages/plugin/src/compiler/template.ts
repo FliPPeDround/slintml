@@ -1,5 +1,6 @@
 import { parse } from '@vue/compiler-dom'
 import fs from 'fs-extra'
+import type { Iresult } from './returnType/index'
 
 interface Node {
   type: number
@@ -7,12 +8,13 @@ interface Node {
   tag: string
 }
 
-export function compilerTemplate(code: string | undefined, name: string) {
+export function compilerTemplate(code: string | undefined, info: Iresult) {
   if (!code)
     return
   const ast = parse(code) as unknown as Node
   const importCode = generateImport((getUseComponentTag(ast)))
-  const exportComponent = generateExportComponent(name, code)
+  const exportComponent = generateExportComponent(info.name, code)
+  // const literalCode = generateLiteral(info.types)
   const outCode = importCode + exportComponent
   const file = 'output/aa.slint'
   fs.outputFileSync(file, outCode)
@@ -44,3 +46,10 @@ function generateExportComponent(name: string, code: string): string {
   ${code}
 }`
 }
+
+// function generateLiteral(types: Iresult['types']) {
+//   const res = types.map((item) => {
+//     return `in-out property<${item.valueType}> ${item.key}`
+//   })
+//   console.log(res)
+// }
