@@ -1,0 +1,20 @@
+<template>
+  <Button>
+    <Text>
+      {{text}}
+    </text>
+  </Button>
+</template>
+
+<script>
+import {createApp} from 'slintml'
+export default createApp({
+  name: 'app',
+  setup() {
+    const text = 'hello'
+    return {
+      text
+    }
+  }
+})
+</script>

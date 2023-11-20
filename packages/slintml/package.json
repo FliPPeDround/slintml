@@ -1,0 +1,51 @@
+{
+  "name": "slintml",
+  "type": "module",
+  "packageManager": "pnpm@8.10.5",
+  "description": "_description_",
+  "author": "FliPPeDround <FliPPeDround@qq.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/flippedround/slintml#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flippedround/slintml.git"
+  },
+  "bugs": "https://github.com/flippedround/slintml/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prepublishOnly": "nr build",
+    "release": "bumpp",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vue/reactivity": "^3.3.8",
+    "slint-ui": "^1.3.0"
+  }
+}
