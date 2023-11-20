@@ -1,6 +1,7 @@
 {
   "name": "slintml",
   "type": "module",
+  "version": "0.0.1",
   "packageManager": "pnpm@8.10.5",
   "description": "_description_",
   "author": "FliPPeDround <FliPPeDround@qq.com>",

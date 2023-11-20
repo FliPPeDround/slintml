@@ -13,8 +13,8 @@ export function compilerTemplate(code: string | undefined, info: Iresult) {
     return
   const ast = parse(code) as unknown as Node
   const importCode = generateImport((getUseComponentTag(ast)))
-  const exportComponent = generateExportComponent(info.name, code)
-  // const literalCode = generateLiteral(info.types)
+  const literalCode = generateLiteral(info.types)
+  const exportComponent = generateExportComponent(info.name, literalCode)
   const outCode = importCode + exportComponent
   const file = 'output/aa.slint'
   fs.outputFileSync(file, outCode)
@@ -43,13 +43,15 @@ function generateImport(tags: Set<string>): string {
 
 function generateExportComponent(name: string, code: string): string {
   return `export component ${name} inherits Window {
-  ${code}
+${code}
 }`
 }
 
-// function generateLiteral(types: Iresult['types']) {
-//   const res = types.map((item) => {
-//     return `in-out property<${item.valueType}> ${item.key}`
-//   })
-//   console.log(res)
-// }
+function generateLiteral(types: Iresult['types']) {
+  return `${types.map((item) => {
+    if (item.valueType === 'callback')
+      return `  callback ${item.key}()`
+    else
+      return `  in-out property<${item.valueType}> ${item.key}`
+  }).join(';\n')};`
+}

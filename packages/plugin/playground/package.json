@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nodemon -w '../src/**/*.ts' -e .ts -x vite"
+    "dev": "nodemon -w '../src/**/*.ts' -e .ts -x vite build"
   },
   "devDependencies": {
-    "vite": "^4.4.9"
+    "slintml": "workspace:*",
+    "vite": "^5.0.0"
   }
 }

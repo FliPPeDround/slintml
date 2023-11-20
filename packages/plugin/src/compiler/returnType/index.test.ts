@@ -40,11 +40,11 @@ describe('get setup return type', () => {
           },
           {
             "key": "foo",
-            "valueType": "number",
+            "valueType": "int",
           },
           {
             "key": "add",
-            "valueType": "function",
+            "valueType": "callback",
           },
         ],
       }

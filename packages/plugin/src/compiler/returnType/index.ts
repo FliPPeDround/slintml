@@ -1,18 +1,20 @@
 import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
 
+// const traverse = _traverse.default
+
 function getType(value: any): string {
   if (value.type === 'StringLiteral')
     return 'string'
 
   else if (value.type === 'NumericLiteral')
-    return 'number'
+    return 'int'
 
   else if (value.type === 'BooleanLiteral')
     return 'boolean'
 
   else if (value.type === 'FunctionDeclaration' || value.type === 'FunctionExpression' || value.type === 'ArrowFunctionExpression')
-    return 'function'
+    return 'callback'
 
   else if (value.type === 'CallExpression')
     return getType(value.arguments[0])

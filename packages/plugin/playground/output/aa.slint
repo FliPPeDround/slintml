@@ -1,10 +1,6 @@
 import {Button} from "std-widgets.slint";
 export component app inherits Window {
-  
-  <Button>
-    <Text>
-      {{text}}
-    </text>
-  </Button>
-
+  in-out property<string> text;
+  in-out property<int> foo;
+  callback add();
 }

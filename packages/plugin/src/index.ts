@@ -5,7 +5,7 @@ import { createUnplugin } from 'unplugin'
 import { compiler } from './compiler'
 import type { Options } from './types'
 
-export const unpluginFactory: UnpluginFactory<Options | undefined> = options => ({
+export const unpluginFactory: UnpluginFactory<Options | undefined> = () => ({
   name: 'unplugin-starter',
   transformInclude(id) {
     return id.endsWith('.slintml')
@@ -15,8 +15,8 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = options => 
     // console.log(descriptor)
     // const file = 'output/aa.js'
     // fs.outputFileSync(file, descriptor?.script)
-    compiler(code, id)
-    return `export default 'aaa'`
+    const script = compiler(code, id)
+    return script
   },
 })
 
