@@ -20,12 +20,19 @@ function getType(value: any): string {
   return 'unknown'
 }
 
-export function getSetupReturnType(code: string) {
+export function getSetupReturnTypeAndName(code: string) {
   const ast = parse(code, {
     sourceType: 'unambiguous',
     plugins: ['typescript', 'jsx', 'classProperties'],
   })
-  let result: { key: any, valueType: string }[] = []
+  interface Iresult {
+    name: string
+    types: { key: any, valueType: string }[]
+  }
+  const result: Iresult = {
+    name: '',
+    types: [],
+  }
   traverse(ast, {
     ObjectMethod(path) {
       if (path.node.key.name === 'setup') {
@@ -48,7 +55,7 @@ export function getSetupReturnType(code: string) {
           ReturnStatement(returnPath) {
             if (returnPath.node.argument!.type === 'ObjectExpression') {
               const properties = returnPath.node.argument.properties
-              result = properties.map((prop: any) => {
+              result.types = properties.map((prop: any) => {
                 const key = prop.key.name
                 const valueType = variableDeclarations[key] || 'unknown'
                 return { key, valueType }
@@ -57,6 +64,10 @@ export function getSetupReturnType(code: string) {
           },
         })
       }
+    },
+    ObjectProperty(path) {
+      if (path.node.key.name === 'name')
+        result.name = path.node.value.value
     },
   })
   return result

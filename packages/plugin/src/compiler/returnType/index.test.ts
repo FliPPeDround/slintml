@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getSetupReturnType } from './index'
+import { getSetupReturnTypeAndName } from './index'
 
 const code = `
 import {createApp} from 'slintml'
@@ -29,21 +29,24 @@ export default createApp({
 
 describe('get setup return type', () => {
   it('get setup', () => {
-    expect(getSetupReturnType(code)).toMatchInlineSnapshot(`
-      [
-        {
-          "key": "text",
-          "valueType": "string",
-        },
-        {
-          "key": "foo",
-          "valueType": "number",
-        },
-        {
-          "key": "add",
-          "valueType": "function",
-        },
-      ]
+    expect(getSetupReturnTypeAndName(code)).toMatchInlineSnapshot(`
+      {
+        "name": "app",
+        "types": [
+          {
+            "key": "text",
+            "valueType": "string",
+          },
+          {
+            "key": "foo",
+            "valueType": "number",
+          },
+          {
+            "key": "add",
+            "valueType": "function",
+          },
+        ],
+      }
     `)
   })
 })
