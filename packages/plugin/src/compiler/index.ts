@@ -3,15 +3,14 @@ import { compilerTemplate } from './template'
 
 import { getSetupReturnTypeAndName } from './returnType/index'
 
-export function compiler(code: string, _id: string) {
+export function compiler(code: string, outDir: string) {
   const { descriptor } = parse(code)
-  if (!descriptor.script?.content)
+  const scriptsCode = descriptor.script?.content.trim()
+  if (!scriptsCode)
     return
-  // console.log(descriptor.script)
-  // compilerScript(descriptor.script?.content)
-  const info = getSetupReturnTypeAndName(descriptor.script?.content)
 
-  compilerTemplate(descriptor.template?.content, info)
+  const info = getSetupReturnTypeAndName(scriptsCode)
+  compilerTemplate(descriptor.template?.content, info, outDir)
 
-  return descriptor.script?.content.trim()
+  return scriptsCode
 }

@@ -1,25 +1,43 @@
-// import { parse } from '@vue/compiler-sfc'
-// import fs from 'fs-extra'
-import type { UnpluginFactory } from 'unplugin'
-import { createUnplugin } from 'unplugin'
-import { compiler } from './compiler'
-import type { Options } from './types'
+import type { Plugin } from 'vite'
+import { compiler } from './compiler/index'
 
-export const unpluginFactory: UnpluginFactory<Options | undefined> = () => ({
-  name: 'unplugin-starter',
-  transformInclude(id) {
-    return id.endsWith('.slintml')
-  },
-  transform(code, id) {
-    // const { descriptor } = parse(code)
-    // console.log(descriptor)
-    // const file = 'output/aa.js'
-    // fs.outputFileSync(file, descriptor?.script)
-    const script = compiler(code, id)
-    return script
-  },
-})
+const fileRegex = /\.(slintml)$/
 
-export const unplugin = /* #__PURE__ */ createUnplugin(unpluginFactory)
+interface Options {
 
-export default unplugin
+}
+
+function VitePluginSlintml(_options: Options = {}): Plugin {
+  let outDir = ''
+  return {
+    name: 'plugin-slintml',
+    configResolved(resolvedConfig) {
+      // 存储最终解析的配置
+      outDir = resolvedConfig.build.outDir || 'dist'
+    },
+    transform(code, id) {
+      if (fileRegex.test(id))
+        return compiler(code, outDir)
+    },
+    config: config => ({
+
+      build: {
+        watch: {},
+        target: 'node16',
+        outDir: config.build?.outDir || 'dist',
+        rollupOptions: {
+          input: config.build?.rollupOptions?.input || 'src/main.js',
+          external: ['slintml'],
+          output: {
+            manualChunks: undefined,
+            // manualChunks: () => null,
+            // inlineDynamicImports: true,
+            entryFileNames: '[name].mjs',
+          },
+        },
+      },
+    }),
+  }
+}
+
+export default /* #__PURE__ */ VitePluginSlintml

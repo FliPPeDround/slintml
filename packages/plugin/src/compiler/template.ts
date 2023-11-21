@@ -8,7 +8,7 @@ interface Node {
   tag: string
 }
 
-export function compilerTemplate(code: string | undefined, info: Iresult) {
+export function compilerTemplate(code: string | undefined, info: Iresult, outDir: string) {
   if (!code)
     return
   const ast = parse(code) as unknown as Node
@@ -16,7 +16,7 @@ export function compilerTemplate(code: string | undefined, info: Iresult) {
   const literalCode = generateLiteral(info.types)
   const exportComponent = generateExportComponent(info.name, literalCode)
   const outCode = importCode + exportComponent
-  const file = 'output/aa.slint'
+  const file = `${outDir}/${info.name}.slint`
   fs.outputFileSync(file, outCode)
 }
 

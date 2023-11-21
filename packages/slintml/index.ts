@@ -8,7 +8,7 @@ interface Component {
 
 function createApp(component: Component) {
   const { setup, name } = component
-  const ui = loadFile(`ui/${name}.slint`)
+  const ui = loadFile(`./${name}.slint`)
   // eslint-disable-next-line ts/ban-ts-comment
   // @ts-expect-error
   const window = new ui[name]()
@@ -24,3 +24,30 @@ function createApp(component: Component) {
 }
 
 export { createApp }
+
+// class App {
+//   private window: any
+//   constructor(component: Component) {
+//     const { setup, name } = component
+//     this.loadSlint(setup, name)
+//   }
+
+//   private loadSlint(setupFn: Component['setup'], name: Component['name']) {
+//     const ui = loadFile(`ui/${name}.slint`)
+//     // eslint-disable-next-line ts/ban-ts-comment
+//     // @ts-expect-error
+//     this.window = new ui[name]()
+//     const res = setupFn()
+
+//     for (const args in this.window) {
+//       if (res[args])
+//         effect(() => this.window[args] = res[args].value)
+//       else
+//         this.window[args] = res[args]
+//     }
+//   }
+
+//   run() {
+//     this.window.run()
+//   }
+// }

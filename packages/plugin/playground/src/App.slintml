@@ -1,5 +1,14 @@
-import {createApp} from 'slintml'
-export default createApp({
+<template>
+  <Button>
+    <Text>
+      {{text}}
+    </text>
+  </Button>
+</template>
+
+<script>
+import {ref} from 'slintml'
+export default {
   name: 'app',
   setup() {
     const text = ref('w')
@@ -21,4 +30,5 @@ export default createApp({
       add
     }
   }
-})
+}
+</script>
