@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import { compiler } from './compiler/index'
 
-const fileRegex = /\.(slintml)$/
+const fileRegex = /\.(stml)$/
 
 interface Options {
 
