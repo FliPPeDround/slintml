@@ -28,6 +28,12 @@ function transformerTemplateNode(ast: Node[]): Node[] {
       } as Node
     }
     else {
+      for (const attr in node.attrs!) {
+        if (attr === '@click' || attr === 'onClick') {
+          node.attrs.clicked = node.attrs[attr]
+          delete node.attrs[attr]
+        }
+      }
       return {
         tag: node.tag,
         attrs: {
@@ -42,7 +48,7 @@ function transformerTemplateNode(ast: Node[]): Node[] {
 function convertBraces(input: string): string {
   const reg = /{{(.*?)}}/g
   if (reg.test(input))
-    return input.replace(reg, '\\{$1}')
+    return input.replaceAll(reg, '\\{$1}')
   else
     return input
 }

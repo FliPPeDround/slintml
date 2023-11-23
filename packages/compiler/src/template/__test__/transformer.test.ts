@@ -79,13 +79,57 @@ describe('parser template', () => {
             },
             {
               "attrs": {
-                "@click": "add",
+                "clicked": "add",
                 "text": "add",
               },
               "tag": "Button",
             },
           ],
           "tag": "VerticalBox",
+        },
+      ]
+    `)
+  })
+  it('no root node', () => {
+    const ast = [
+      {
+        tag: 'template',
+        content: [
+          '\n    ',
+          {
+            tag: 'Text',
+            content: [
+              '{{counter}}',
+            ],
+          },
+          '\n    ',
+          {
+            tag: 'Button',
+            attrs: {
+              '@click': 'add',
+            },
+            content: [
+              '\n      add\n    ',
+            ],
+          },
+          '\n',
+        ],
+      },
+    ] as Node[]
+    expect(transformer(ast)).toMatchInlineSnapshot(`
+      [
+        {
+          "attrs": {
+            "text": "\\\\{counter}",
+          },
+          "tag": "Text",
+        },
+        {
+          "attrs": {
+            "clicked": "add",
+            "text": "add",
+          },
+          "tag": "Button",
         },
       ]
     `)
