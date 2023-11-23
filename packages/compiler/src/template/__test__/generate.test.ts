@@ -26,17 +26,8 @@ describe('parser template', () => {
     ]
     expect(generate(templateCode)).toMatchInlineSnapshot(`
       "VerticalBox {
-      Text {
-          text: \\"\\\\{counter}\\";
-      }
-      Button {
-          clicked => {
-              add();
-          }
-          text: \\"add\\";
-          width: 100px;
-      }
-
+      Text {text: \\"\\\\{counter}\\";}
+      Button {clicked => {add();}text: \\"add\\";width: 100px;}
       }
       "
     `)

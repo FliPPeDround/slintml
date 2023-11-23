@@ -9,10 +9,7 @@ describe('parser template', () => {
   </Text>
 </template>`
     expect(compiler(templateCode)).toMatchInlineSnapshot(`
-      "Text {
-          color: red;
-          text: \\"bar\\\\{foo}\\";
-      }
+      "Text {color: red;text: \\"bar\\\\{foo}\\";}
       "
     `)
   })

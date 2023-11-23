@@ -4,29 +4,34 @@ interface ASTNode {
   content?: ASTNode[]
 }
 
+const attrsMap = {
+  clicked: (value: string) => {
+    return `clicked => {${value}();}`
+  },
+  text: (value: string) => {
+    return `text: "${value}";`
+  },
+}
+
 export function generate(ast: ASTNode[]): string {
   let code = ''
 
   ast.forEach((node) => {
     code += `${node.tag} {`
-
     if (node.attrs) {
       Object.entries(node.attrs).forEach(([key, value]) => {
-        if (key === 'clicked')
-          code += `\n    ${key} => {\n        ${value}();\n    }`
-
-        else if (key === 'text')
-          code += `\n    ${key}: "${value}";`
+        if (attrsMap[key])
+          code += attrsMap[key](value)
 
         else
-          code += `\n    ${key}: ${value};`
+          code += `${key}: ${value};`
       })
     }
 
     if (node.content)
       code += `\n${generate(node.content)}`
 
-    code += '\n}\n'
+    code += '}\n'
   })
 
   return code
