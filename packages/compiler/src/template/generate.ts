@@ -1,15 +1,33 @@
-export function generate(ast: any) {
-  return ast.map((node: any) => {
-    if (node.tag) {
-      return `${node.tag}{
-    ${node.content ? generate(node.content).join() : ''}
-  }`
-    }
+interface ASTNode {
+  tag: string
+  attrs?: { [key: string]: any }
+  content?: ASTNode[]
+}
+
+export function generate(ast: ASTNode[]): string {
+  let code = ''
+
+  ast.forEach((node) => {
+    code += `${node.tag} {`
+
     if (node.attrs) {
-      return node.attrs.map((attr: any) => {
-        return attr
+      Object.entries(node.attrs).forEach(([key, value]) => {
+        if (key === 'clicked')
+          code += `\n    ${key} => {\n        ${value}();\n    }`
+
+        else if (key === 'text')
+          code += `\n    ${key}: "${value}";`
+
+        else
+          code += `\n    ${key}: ${value};`
       })
     }
-    else { return '' }
+
+    if (node.content)
+      code += `\n${generate(node.content)}`
+
+    code += '\n}\n'
   })
+
+  return code
 }

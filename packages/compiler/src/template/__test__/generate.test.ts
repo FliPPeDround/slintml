@@ -8,7 +8,7 @@ describe('parser template', () => {
         content: [
           {
             attrs: {
-              text: '\\\\{counter}',
+              text: '\\{counter}',
             },
             tag: 'Text',
           },
@@ -16,6 +16,7 @@ describe('parser template', () => {
             attrs: {
               clicked: 'add',
               text: 'add',
+              width: '100px',
             },
             tag: 'Button',
           },
@@ -24,15 +25,20 @@ describe('parser template', () => {
       },
     ]
     expect(generate(templateCode)).toMatchInlineSnapshot(`
-      [
-        "VerticalBox{
-          Text{
-          
-        },Button{
-          
-        }
-        }",
-      ]
+      "VerticalBox {
+      Text {
+          text: \\"\\\\{counter}\\";
+      }
+      Button {
+          clicked => {
+              add();
+          }
+          text: \\"add\\";
+          width: 100px;
+      }
+
+      }
+      "
     `)
   })
 })
