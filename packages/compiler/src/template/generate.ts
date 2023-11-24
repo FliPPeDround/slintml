@@ -1,6 +1,6 @@
 interface ASTNode {
   tag: string
-  attrs?: { [key: string]: any }
+  attrs?: { [key: string]: string }
   content?: ASTNode[]
 }
 
@@ -13,6 +13,10 @@ const attrsMap = {
   },
 }
 
+function isAttrMapKey(key: string): key is keyof typeof attrsMap {
+  return key in attrsMap
+}
+
 export function generate(ast: ASTNode[]): string {
   let code = ''
 
@@ -20,7 +24,7 @@ export function generate(ast: ASTNode[]): string {
     code += `${node.tag} {`
     if (node.attrs) {
       Object.entries(node.attrs).forEach(([key, value]) => {
-        if (attrsMap[key])
+        if (isAttrMapKey(key))
           code += attrsMap[key](value)
 
         else
